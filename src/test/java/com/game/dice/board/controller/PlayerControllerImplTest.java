@@ -1,5 +1,6 @@
 package com.game.dice.board.controller;
 
+import com.game.dice.board.controller.impl.PlayerControllerImpl;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
 import com.game.dice.board.service.GameBoardService;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,11 +17,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PlayerControllerTest {
+class PlayerControllerImplTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
@@ -37,7 +36,7 @@ class PlayerControllerTest {
         when(gameBoardService.getGameBoard(anyString())).thenReturn(board);
         when(gameBoardService.join(anyString(),any(Player.class) )).thenReturn(player);
 
-        mockMvc.perform(MockMvcRequestBuilders.post(PlayerController.JOIN_ROUTE)
+        mockMvc.perform(MockMvcRequestBuilders.post(PlayerControllerImpl.JOIN_ROUTE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(MockMvcResultMatchers.status().isOk())

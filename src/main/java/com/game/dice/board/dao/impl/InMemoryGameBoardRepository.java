@@ -1,9 +1,9 @@
 package com.game.dice.board.dao.impl;
 
-import com.game.dice.board.support.Utils;
 import com.game.dice.board.dao.GameBoardRepository;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
+import com.game.dice.board.support.Utils;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;

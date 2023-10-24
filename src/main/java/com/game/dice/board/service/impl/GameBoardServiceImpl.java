@@ -1,10 +1,10 @@
 package com.game.dice.board.service.impl;
 
 import com.game.dice.board.dao.GameBoardRepository;
-import com.game.dice.board.exception.ApiException;
-import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
+import com.game.dice.board.exception.ApiException;
+import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.model.request.CreateBoardRequest;
 import com.game.dice.board.model.request.RollRequest;
 import com.game.dice.board.service.GameBoardService;

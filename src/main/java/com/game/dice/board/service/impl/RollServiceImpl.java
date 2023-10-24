@@ -21,7 +21,7 @@ public class RollServiceImpl implements RollService {
         this.scorerService = scorerService;
     }
 
-    private  int nextIndex(GameBoard gameBoard, int idx) {
+    private int nextIndex(GameBoard gameBoard, int idx) {
         return (idx + 1) % gameBoard.getPlayers().size();
     }
 

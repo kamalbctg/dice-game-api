@@ -1,9 +1,9 @@
 package com.game.dice.board.service.impl;
 
+import com.game.dice.board.entity.Player;
 import com.game.dice.board.exception.ApiException;
 import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.model.response.DiceRollResult;
-import com.game.dice.board.entity.Player;
 import com.game.dice.board.service.ScorerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

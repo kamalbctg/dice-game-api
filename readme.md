@@ -22,3 +22,8 @@ Update resources/application.properties
   docker build -t hishab/board-game-app .
   docker run -it -p 8080:8000 hishab/board-game-app
 ```
+
+### Api document
+```
+    http://localhost:8080/api-doc
+```
