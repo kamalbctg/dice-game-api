@@ -1,7 +1,7 @@
 package com.game.dice.board.service.impl;
 
 import com.game.dice.board.config.GameBoardConf;
-import com.game.dice.board.dao.GameBoardRepository;
+import com.game.dice.board.repository.GameBoardRepository;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
 import com.game.dice.board.exception.ApiException;

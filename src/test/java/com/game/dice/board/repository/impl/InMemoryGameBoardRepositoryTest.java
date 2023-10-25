@@ -1,4 +1,4 @@
-package com.game.dice.board.dao.impl;
+package com.game.dice.board.repository.impl;
 
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.PlayStatus;
