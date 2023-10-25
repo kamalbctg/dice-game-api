@@ -1,0 +1,133 @@
+{
+	"info": {
+		"_postman_id": "a04f2176-dcfc-4f98-ac91-efab71129bfe",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2142660"
+	},
+	"item": [
+		{
+			"name": "CreateBoard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"board-a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/game/board/initiate",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"game",
+						"board",
+						"initiate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "JoinBoard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"boardId\":\"4421dd90-dd79-450e-81d4-40a4a8b15164\",\n    \"name\": \"user-1\",\n    \"age\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/player/join",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"player",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StartGame",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/game/board/start/4421dd90-dd79-450e-81d4-40a4a8b15164",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"game",
+						"board",
+						"start",
+						"4421dd90-dd79-450e-81d4-40a4a8b15164"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "JoinBoard Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/game/board/status/4421dd90-dd79-450e-81d4-40a4a8b15164",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"game",
+						"board",
+						"status",
+						"4421dd90-dd79-450e-81d4-40a4a8b15164"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Docs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v3/api-docs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v3",
+						"api-docs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
