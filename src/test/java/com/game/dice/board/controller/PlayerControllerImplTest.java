@@ -21,25 +21,26 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @AutoConfigureMockMvc
 class PlayerControllerImplTest {
-    @Autowired
-    private MockMvc mockMvc;
     @MockBean
     GameBoardService gameBoardService;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test
     void testPlayerJoin() throws Exception {
         GameBoard board = new GameBoard("test", "1ed764d5-72b5-4905-be78-de2a4422bd0f");
         Player player = new Player("test", 35);
 
-        String requestBody = "{\"boardId\": \""+board.getId()+"\", \"name\": \""+player.getName()+"\", \"age\": \""+player.getAge()+"\"}";
+        String requestBody = "{\"boardId\": \"" + board.getId() + "\", \"name\": \"" + player.getName() + "\", \"age\": \"" + player.getAge() + "\"}";
 
         when(gameBoardService.getGameBoard(anyString())).thenReturn(board);
-        when(gameBoardService.join(anyString(),any(Player.class) )).thenReturn(player);
+        when(gameBoardService.join(anyString(), any(Player.class))).thenReturn(player);
 
         mockMvc.perform(MockMvcRequestBuilders.post(PlayerControllerImpl.JOIN_ROUTE)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));;
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+        ;
     }
 }

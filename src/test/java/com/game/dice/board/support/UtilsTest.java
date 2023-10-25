@@ -1,6 +1,5 @@
 package com.game.dice.board.support;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -10,8 +9,14 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UtilsTest {
-    private final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+public class UtilsTest {
+    private static final Pattern UUID_PATTERN = Pattern.compile("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$");
+
+    public static boolean isValidUuid(String uuid) {
+        Matcher matcher = UUID_PATTERN.matcher(uuid);
+        return matcher.matches();
+    }
+
     @Test
     void testUtilConstruction() {
         assertThrows(InvocationTargetException.class, () -> {
@@ -26,10 +31,5 @@ class UtilsTest {
         String uuid = Utils.uuid();
         assertNotNull(uuid);
         assertTrue(isValidUuid(uuid));
-    }
-
-    public boolean isValidUuid(String uuid) {
-        Matcher matcher = UUID_PATTERN.matcher(uuid);
-        return matcher.matches();
     }
 }

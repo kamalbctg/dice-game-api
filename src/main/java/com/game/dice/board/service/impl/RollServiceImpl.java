@@ -4,7 +4,8 @@ import com.game.dice.board.config.GameBoardConf;
 import com.game.dice.board.dao.GameBoardRepository;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
-import com.game.dice.board.service.GameBoardService;
+import com.game.dice.board.exception.ApiException;
+import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.service.RollService;
 import com.game.dice.board.service.ScorerService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.game.dice.board.config.GameBoardConf.MIN_PLAYER_REQUIRED;
 
 @Slf4j
 @Service
@@ -26,22 +29,23 @@ public class RollServiceImpl implements RollService {
         this.gameBoardRepository = gameBoardRepository;
     }
 
-    private int nextIndex(GameBoard gameBoard, int idx) {
-        return (idx + 1) % gameBoard.getPlayers().size();
+    private static int nextIndex(int index, int upperBound) {
+        return (++index) % upperBound;
     }
 
     @Override
     @Async
     public void rollAndScore(String boardId) {
         GameBoard gameBoard = gameBoardRepository.getGameBoard(boardId);
-        if(gameBoard == null){
+        if (gameBoard == null) {
             log.error(" Board of id: [{}] not found", boardId);
-            return;
+            throw new ApiException(ErrorDefinition.BOARD_NOT_FOUND);
         }
 
-        if(gameBoard.getPlayers() == null && gameBoard.getPlayers().size() < GameBoardConf.MIN_PLAYER_REQUIRED){
-            log.error(" Board of id: [{}], do not have enough player to start", boardId);
-            return;
+        if (gameBoard.getPlayers() == null || gameBoard.numberOfPlayers() < MIN_PLAYER_REQUIRED ||
+                gameBoard.numberOfPlayers() > GameBoardConf.MAX_PLAYER_ALLOWED) {
+            log.error(" Board of id: [{}], player requirement miss match  to start, number of players {}", boardId, gameBoard.numberOfPlayers());
+            throw new ApiException(ErrorDefinition.BOARD_PLAYER_REQUIREMENT);
         }
         rollAndPlay(gameBoard);
     }
@@ -49,37 +53,39 @@ public class RollServiceImpl implements RollService {
     private void rollAndPlay(GameBoard gameBoard) {
         try {
             int index = 0;
+            int upperBound = gameBoard.numberOfPlayers();
+            int maxScore = Integer.MIN_VALUE;
             gameBoard.playOn();
-            List<Player> players = gameBoardRepository.getPlayers(gameBoard.getId());
+            List<Player> players = gameBoard.getPlayers();
             log.info("Stat Playing game");
             while (gameBoard.isPlayOn()) {
                 int currentScore = scorerService.roll();
                 Player player = players.get(index);
-                if (currentScore == gameBoardConf.getPenaltyScore()) {
-                    setPenaltyScore(player);
-                    log.info(" Player : [{}] get penalty, current score:[{}]", player.getName(), player.getScore());
-                    index = nextIndex(gameBoard, index);
-                    continue;
-                }
-
-                if (currentScore == gameBoardConf.getStartScore() && !player.isStartRolling()) {
-                    player.setStartRolling(true);
-                    continue;
-                }
-
-                if (currentScore == gameBoardConf.getStartScore()) {
-                    player.setScore(player.getScore() + currentScore);
-                    continue;
-                }
-                player.setScore(player.getScore() + ((player.isStartRolling()) ? currentScore : 0));
-                index = nextIndex(gameBoard, index);
-                log.info(" Player : [{}] , current score:[{}]", player.getName(), player.getScore());
-                log.info(player.getName() + "");
-                if (player.getScore() >= gameBoardConf.getWinningScore()) {
-                    gameBoard.playOff();
-                    log.info(" Winner Player : [{}] get penalty, current score:[{}]", player.getName(), player.getScore());
+                if (index == 1)
+                    log.info("Index : [{}] , current score:[{}]", index, currentScore);
+                if (maxScore >= gameBoardConf.getWinningScore()) {
                     break;
                 }
+                if (currentScore == gameBoardConf.getPenaltyScore()) {
+                    if (!player.isStartRolling()) {
+                        player.setScore(Math.max(0, player.getScore() - gameBoardConf.getPenaltyScore()));
+                    }
+                    log.info("Player : [{}] get penalty, current score:[{}]", index, player.getScore());
+                    player.setStartRolling(false);
+                    index = nextIndex(index, upperBound);
+                } else if (currentScore == gameBoardConf.getStartScore() && !player.isStartRolling()) {
+                    player.setStartRolling(true);
+                    log.info("Player : [{}] start rolling, current score:[{}]", index, player.getScore());
+                } else if (currentScore == gameBoardConf.getStartScore()) {
+                    player.setScore(player.getScore() + currentScore);
+                    log.info("Player : [{}] hit 6, current score:[{}]", index, player.getScore());
+                } else {
+                    player.setScore(player.getScore() + currentScore);
+                    log.info(" Player : [{}] , current score:[{}]", index, player.getScore());
+                    player.setStartRolling(false);
+                    index = nextIndex(index, upperBound);
+                }
+                maxScore = Math.max(maxScore, player.getScore());
             }
             log.info("End Playing game");
         } catch (Exception e) {
@@ -89,10 +95,4 @@ public class RollServiceImpl implements RollService {
         }
     }
 
-    private void setPenaltyScore(Player player) {
-        if (player.isStartRolling()) {
-            player.setScore(Math.max(0, player.getScore() - gameBoardConf.getPenaltyScore()));
-            player.setStartRolling(player.getScore() > 0);
-        }
-    }
 }

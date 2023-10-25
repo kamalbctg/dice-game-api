@@ -22,17 +22,21 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
 
     private Map<String, GameBoard> map = new ConcurrentHashMap<>();
     private Map<String, Lock> keyLocks = new ConcurrentHashMap<>();
+
     @Override
     public GameBoard joinPlayer(String boardId, Player player) {
         GameBoard gameBoard = getGameBoard(boardId);
         Lock lock = lock(boardId);
+        lock.lock();
         try {
-            if (gameBoard.getPlayers().size() == 4) {
+            if (gameBoard.numberOfPlayers() == 4) {
+                log.warn("board {} was full", boardId);
                 throw new ApiException(ErrorDefinition.BOARD_IS_FULL);
             }
             gameBoard.add(player);
         } finally {
             lock.unlock();
+            log.info("unlock board {}", boardId);
         }
         return gameBoard;
     }
@@ -52,9 +56,6 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
     @Override
     public Player getPlayer(String boardId, String playerId) {
         GameBoard gameBoard = getGameBoard(boardId);
-        if(gameBoard == null) {
-            return null;
-        }
         return gameBoard.getPlayers().stream()
                 .filter(p -> p.getId().equals(playerId))
                 .findFirst()
@@ -70,6 +71,7 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
     public GameBoard resetBoard(String boardId) {
         GameBoard board = getGameBoard(boardId);
         Lock lock = lock(boardId);
+        lock.lock();
         try {
             for (Player player : board.getPlayers()) {
                 player.setScore(0);
@@ -80,7 +82,8 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
         return board;
     }
 
-    public Lock lock(String boardId) {
+    private Lock lock(String boardId) {
+        log.info("create lock for {}", boardId);
         return keyLocks.computeIfAbsent(boardId, k -> new ReentrantLock());
     }
 }

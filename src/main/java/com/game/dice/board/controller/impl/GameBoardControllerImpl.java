@@ -49,6 +49,7 @@ public class GameBoardControllerImpl implements GameBoardController {
         if (gameBoard == null) {
             throw new ApiException(ErrorDefinition.BOARD_NOT_FOUND);
         }
+
         if (!gameBoard.hasRequiredPlayers()) {
             throw new ApiException(ErrorDefinition.BOARD_PLAY_INPROGRESS);
         }
@@ -71,7 +72,7 @@ public class GameBoardControllerImpl implements GameBoardController {
         return ApiResponse.successWithNoMessage(GameBoardDetailsResponse.builder()
                 .id(gameBoard.getId())
                 .name(gameBoard.getName())
-                .winningScore(gameBoardConf.winningScore)
+                .winningScore(gameBoardConf.getWinningScore())
                 .penaltyScore(gameBoardConf.getPenaltyScore())
                 .minPlayerRequired(GameBoardConf.MIN_PLAYER_REQUIRED)
                 .maxPlayerAllowed(GameBoardConf.MAX_PLAYER_ALLOWED)

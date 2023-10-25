@@ -12,11 +12,11 @@ public class GameBoardConf {
     public static final int MAX_PLAYER_ALLOWED = 4;
 
     @Value("${app.board.score.start:6}")
-    public int startScore;
+    private int startScore;
 
     @Value("${app.board.score.penalty:4}")
-    public int penaltyScore;
+    private int penaltyScore;
 
     @Value("${app.board.score.wining:26}")
-    public int winningScore;
+    private int winningScore;
 }

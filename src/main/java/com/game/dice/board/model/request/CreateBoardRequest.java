@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CreateBoardRequest {
-    public String name;
+    private String name;
 }

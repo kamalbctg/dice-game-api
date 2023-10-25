@@ -52,4 +52,8 @@ public class GameBoard {
     public void add(Player player) {
         players.add(player);
     }
+
+    public int numberOfPlayers() {
+        return getPlayers().size();
+    }
 }

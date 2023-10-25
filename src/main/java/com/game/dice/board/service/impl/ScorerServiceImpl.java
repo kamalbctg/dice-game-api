@@ -12,20 +12,21 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ScorerServiceImpl implements ScorerService {
 
-    @Value("${roll.dice.api}")
+
     private String rollDiceApi;
     private RestTemplate restTemplate;
 
     @Autowired
-    public ScorerServiceImpl(RestTemplate restTemplate) {
+    public ScorerServiceImpl(RestTemplate restTemplate, @Value("${roll.dice.api}") String rollDiceApi) {
         this.restTemplate = restTemplate;
+        this.rollDiceApi = rollDiceApi;
     }
 
     @Override
     public int roll() {
         DiceRollResult result = null;
         try {
-            result = restTemplate.getForObject(this.rollDiceApi, DiceRollResult.class);
+            result = restTemplate.getForObject(rollDiceApi, DiceRollResult.class);
         } catch (Exception ex) {
             throw new ApiException(ErrorDefinition.INTERNAL_SERVER_ERROR);
         }

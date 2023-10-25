@@ -8,7 +8,7 @@ public interface RollService {
     /**
      * Roll and score.
      *
-     * @param gameBoard the game board
+     * @param boardId the board id
      */
     void rollAndScore(String boardId);
 }

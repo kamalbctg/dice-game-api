@@ -19,6 +19,6 @@ public class GameBoardResponse {
     private int numberOfPlayers;
 
     public static GameBoardResponse build(GameBoard gameBoard) {
-        return new GameBoardResponse(gameBoard.getId(), gameBoard.getName(), PlayStatus.findById(gameBoard.getPlayStatus()), gameBoard.getPlayers().size());
+        return new GameBoardResponse(gameBoard.getId(), gameBoard.getName(), PlayStatus.findById(gameBoard.getPlayStatus()), gameBoard.numberOfPlayers());
     }
 }

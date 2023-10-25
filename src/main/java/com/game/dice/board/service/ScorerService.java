@@ -7,7 +7,6 @@ public interface ScorerService {
     /**
      * Roll int.
      *
-     * @param player the player
      * @return the int
      */
     int roll();
