@@ -31,9 +31,9 @@ public class ApplicationConfiguration {
     @Bean
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(1);
-        executor.setQueueCapacity(10);
+        executor.setCorePoolSize(5);
+        executor.setMaxPoolSize(10);
+        executor.setQueueCapacity(5);
         executor.setThreadNamePrefix("RollServiceExecution-");
         executor.setRejectedExecutionHandler((r, executor1) ->
                 log.warn("Task rejected, thread pool is full and queue is also full"));
