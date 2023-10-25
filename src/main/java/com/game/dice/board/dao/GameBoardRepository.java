@@ -15,4 +15,6 @@ public interface GameBoardRepository {
     Player getPlayer(String boardId, String playerId);
 
     List<Player> getPlayers(String boardId);
+
+    GameBoard resetBoard(String boardId);
 }

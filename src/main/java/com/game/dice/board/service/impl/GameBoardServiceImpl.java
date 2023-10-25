@@ -35,7 +35,6 @@ public class GameBoardServiceImpl implements GameBoardService {
             throw new ApiException(ErrorDefinition.INSUFFICIENT_PLAYER_DATA);
         }
         gameBoardRepository.joinPlayer(boardId, player);
-
         return player;
     }
 
@@ -47,11 +46,7 @@ public class GameBoardServiceImpl implements GameBoardService {
 
     @Override
     public GameBoard resetBoard(String boardId) {
-        GameBoard gameBoard = gameBoardRepository.getGameBoard(boardId);
-        for (Player player : gameBoard.getPlayers()) {
-            player.setScore(0);
-        }
-        return gameBoard;
+        return gameBoardRepository.resetBoard(boardId);
     }
 
     @Override
@@ -61,8 +56,7 @@ public class GameBoardServiceImpl implements GameBoardService {
         if (player == null) {
             throw new ApiException(ErrorDefinition.PLAYER_NOT_FOUND);
         }
-
-        scorerService.roll(player);
+        scorerService.roll();
         return board;
     }
 

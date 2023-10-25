@@ -57,7 +57,7 @@ public class GameBoardControllerImpl implements GameBoardController {
             throw new ApiException(ErrorDefinition.BOARD_PLAY_INPROGRESS);
         }
         gameBoardService.resetBoard(boardId);
-        rollService.rollAndScore(gameBoard);
+        rollService.rollAndScore(boardId);
         return ApiResponse.successWithNoMessage(GameBoardResponse.build(gameBoard));
     }
 
@@ -75,7 +75,7 @@ public class GameBoardControllerImpl implements GameBoardController {
                 .penaltyScore(gameBoardConf.getPenaltyScore())
                 .minPlayerRequired(GameBoardConf.MIN_PLAYER_REQUIRED)
                 .maxPlayerAllowed(GameBoardConf.MAX_PLAYER_ALLOWED)
-                .players(gameBoard.getPlayers().stream().map(p -> PlayerResponse.build(p)).collect(Collectors.toList()))
+                .players(gameBoard.getPlayers().stream().map(PlayerResponse::build).collect(Collectors.toList()))
                 .play(PlayStatus.findById(gameBoard.getPlayStatus()))
                 .build());
     }

@@ -1,6 +1,5 @@
 package com.game.dice.board.service;
 
-import com.game.dice.board.entity.GameBoard;
 
 /**
  * The interface Roll service.
@@ -11,5 +10,5 @@ public interface RollService {
      *
      * @param gameBoard the game board
      */
-    void rollAndScore(GameBoard gameBoard);
+    void rollAndScore(String boardId);
 }

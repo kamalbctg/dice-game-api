@@ -3,23 +3,37 @@ package com.game.dice.board.dao.impl;
 import com.game.dice.board.dao.GameBoardRepository;
 import com.game.dice.board.entity.GameBoard;
 import com.game.dice.board.entity.Player;
+import com.game.dice.board.exception.ApiException;
+import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.support.Utils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+@Slf4j
 @Repository
 public class InMemoryGameBoardRepository implements GameBoardRepository {
 
     private Map<String, GameBoard> map = new ConcurrentHashMap<>();
-
+    private Map<String, Lock> keyLocks = new ConcurrentHashMap<>();
     @Override
     public GameBoard joinPlayer(String boardId, Player player) {
         GameBoard gameBoard = getGameBoard(boardId);
-        map.get(boardId).getPlayers().add(player);
+        Lock lock = lock(boardId);
+        try {
+            if (gameBoard.getPlayers().size() == 4) {
+                throw new ApiException(ErrorDefinition.BOARD_IS_FULL);
+            }
+            gameBoard.add(player);
+        } finally {
+            lock.unlock();
+        }
         return gameBoard;
     }
 
@@ -37,7 +51,11 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
 
     @Override
     public Player getPlayer(String boardId, String playerId) {
-        return map.get(boardId).getPlayers().stream()
+        GameBoard gameBoard = getGameBoard(boardId);
+        if(gameBoard == null) {
+            return null;
+        }
+        return gameBoard.getPlayers().stream()
                 .filter(p -> p.getId().equals(playerId))
                 .findFirst()
                 .orElse(null);
@@ -46,5 +64,23 @@ public class InMemoryGameBoardRepository implements GameBoardRepository {
     @Override
     public List<Player> getPlayers(String boardId) {
         return Collections.unmodifiableList(map.get(boardId).getPlayers());
+    }
+
+    @Override
+    public GameBoard resetBoard(String boardId) {
+        GameBoard board = getGameBoard(boardId);
+        Lock lock = lock(boardId);
+        try {
+            for (Player player : board.getPlayers()) {
+                player.setScore(0);
+            }
+        } finally {
+            lock.unlock();
+        }
+        return board;
+    }
+
+    public Lock lock(String boardId) {
+        return keyLocks.computeIfAbsent(boardId, k -> new ReentrantLock());
     }
 }

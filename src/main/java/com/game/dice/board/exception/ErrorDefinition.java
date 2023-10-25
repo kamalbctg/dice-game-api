@@ -3,6 +3,7 @@ package com.game.dice.board.exception;
 public enum ErrorDefinition {
     INTERNAL_SERVER_ERROR("00-00-00", "internal server error", 500),
     BOARD_NOT_FOUND("01-00-01", "board is not registered", 400),
+    BOARD_IS_FULL("01-00-01", "board max payer limit reached", 400),
     BOARD_PLAYER_REQUIREMENT("01-00-02", "board do not have enough player", 400),
     BOARD_PLAY_INPROGRESS("01-00-03", "board do not have enough player", 400),
     INSUFFICIENT_PLAYER_DATA("02-00-01", "insufficient player ", 400),

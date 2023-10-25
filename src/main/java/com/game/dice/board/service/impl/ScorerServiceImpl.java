@@ -1,6 +1,5 @@
 package com.game.dice.board.service.impl;
 
-import com.game.dice.board.entity.Player;
 import com.game.dice.board.exception.ApiException;
 import com.game.dice.board.exception.ErrorDefinition;
 import com.game.dice.board.model.response.DiceRollResult;
@@ -23,7 +22,7 @@ public class ScorerServiceImpl implements ScorerService {
     }
 
     @Override
-    public int roll(Player player) {
+    public int roll() {
         DiceRollResult result = null;
         try {
             result = restTemplate.getForObject(this.rollDiceApi, DiceRollResult.class);
