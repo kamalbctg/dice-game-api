@@ -1,8 +1,8 @@
-package com.game.dice.board.service;
+package hishab.app.game.dice.board.service;
 
-import com.game.dice.board.exception.ApiException;
-import com.game.dice.board.model.response.DiceRollResult;
-import com.game.dice.board.service.impl.ScorerServiceImpl;
+import hishab.app.game.dice.board.exception.ApiException;
+import hishab.app.game.dice.board.model.response.DiceRollResult;
+import hishab.app.game.dice.board.service.impl.ScorerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

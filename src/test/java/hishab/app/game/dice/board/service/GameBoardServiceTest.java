@@ -1,12 +1,12 @@
-package com.game.dice.board.service;
+package hishab.app.game.dice.board.service;
 
-import com.game.dice.board.repository.GameBoardRepository;
-import com.game.dice.board.entity.GameBoard;
-import com.game.dice.board.entity.Player;
-import com.game.dice.board.exception.ApiException;
-import com.game.dice.board.model.request.CreateBoardRequest;
-import com.game.dice.board.service.impl.GameBoardServiceImpl;
-import com.game.dice.board.support.Utils;
+import hishab.app.game.dice.board.repository.GameBoardRepository;
+import hishab.app.game.dice.board.entity.GameBoard;
+import hishab.app.game.dice.board.entity.Player;
+import hishab.app.game.dice.board.exception.ApiException;
+import hishab.app.game.dice.board.model.request.CreateBoardRequest;
+import hishab.app.game.dice.board.service.impl.GameBoardServiceImpl;
+import hishab.app.game.dice.board.support.Utils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

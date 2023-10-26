@@ -1,4 +1,4 @@
-package com.game.dice.board.support;
+package hishab.app.game.dice.board.support;
 
 import org.junit.jupiter.api.Test;
 

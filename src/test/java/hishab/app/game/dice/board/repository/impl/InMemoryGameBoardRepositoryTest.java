@@ -1,10 +1,11 @@
-package com.game.dice.board.repository.impl;
+package hishab.app.game.dice.board.repository.impl;
 
-import com.game.dice.board.entity.GameBoard;
-import com.game.dice.board.entity.PlayStatus;
-import com.game.dice.board.entity.Player;
-import com.game.dice.board.exception.ApiException;
-import com.game.dice.board.support.UtilsTest;
+import hishab.app.game.dice.board.entity.GameBoard;
+import hishab.app.game.dice.board.entity.PlayStatus;
+import hishab.app.game.dice.board.entity.Player;
+import hishab.app.game.dice.board.exception.ApiException;
+import hishab.app.game.dice.board.support.UtilsTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,7 +26,7 @@ class InMemoryGameBoardRepositoryTest {
         assertNotNull(board);
         assertNotNull(board.getPlayers());
         assertEquals(1,board.numberOfPlayers());
-        assertTrue(UtilsTest.isValidUuid(board.getPlayers().get(0).getId()));
+        Assertions.assertTrue(UtilsTest.isValidUuid(board.getPlayers().get(0).getId()));
 
     }
 
@@ -55,7 +56,7 @@ class InMemoryGameBoardRepositoryTest {
         assertNotNull(board.getName());
         assertEquals(boardName,board.getName());
         assertEquals(0,board.numberOfPlayers());
-        assertEquals(PlayStatus.OFF.getId(), board.getPlayStatus());
+        Assertions.assertEquals(PlayStatus.OFF.getId(), board.getPlayStatus());
         assertTrue(UtilsTest.isValidUuid(board.getId()));
     }
 

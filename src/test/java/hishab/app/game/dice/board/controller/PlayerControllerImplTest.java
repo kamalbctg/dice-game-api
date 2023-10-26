@@ -1,10 +1,10 @@
-package com.game.dice.board.controller;
+package hishab.app.game.dice.board.controller;
 
-import com.game.dice.board.controller.impl.PlayerControllerImpl;
-import com.game.dice.board.entity.GameBoard;
-import com.game.dice.board.entity.Player;
-import com.game.dice.board.exception.ErrorDefinition;
-import com.game.dice.board.service.GameBoardService;
+import hishab.app.game.dice.board.controller.impl.PlayerControllerImpl;
+import hishab.app.game.dice.board.entity.GameBoard;
+import hishab.app.game.dice.board.entity.Player;
+import hishab.app.game.dice.board.exception.ErrorDefinition;
+import hishab.app.game.dice.board.service.GameBoardService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +13,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.equalTo;
