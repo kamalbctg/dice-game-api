@@ -48,7 +48,6 @@ class PlayerControllerImplTest {
                         .content(requestBody))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
-        ;
     }
 
     @Test
