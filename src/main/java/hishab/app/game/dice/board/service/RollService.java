@@ -1,14 +1,13 @@
 package hishab.app.game.dice.board.service;
 
-
 /**
- * The interface Roll service.
+ * The interface Scorer service.
  */
 public interface RollService {
     /**
-     * Roll and score.
+     * Roll int.
      *
-     * @param boardId the board id
+     * @return the int
      */
-    void rollAndScore(String boardId);
+    int roll();
 }

@@ -12,7 +12,7 @@ import hishab.app.game.dice.board.model.response.GameBoardDetailsResponse;
 import hishab.app.game.dice.board.model.response.GameBoardResponse;
 import hishab.app.game.dice.board.model.response.PlayerResponse;
 import hishab.app.game.dice.board.service.GameBoardService;
-import hishab.app.game.dice.board.service.RollService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -25,13 +25,11 @@ public class GameBoardControllerImpl implements GameBoardController {
 
     private GameBoardService gameBoardService;
 
-    private RollService rollService;
-
     private GameBoardConf gameBoardConf;
 
-    public GameBoardControllerImpl(GameBoardService gameBoardService, RollService rollService, GameBoardConf gameBoardConf) {
+    @Autowired
+    public GameBoardControllerImpl(GameBoardService gameBoardService, GameBoardConf gameBoardConf) {
         this.gameBoardService = gameBoardService;
-        this.rollService = rollService;
         this.gameBoardConf = gameBoardConf;
     }
 
@@ -57,8 +55,7 @@ public class GameBoardControllerImpl implements GameBoardController {
         if (gameBoard.isPlayOn()) {
             throw new ApiException(ErrorDefinition.BOARD_PLAY_INPROGRESS);
         }
-        gameBoardService.resetBoard(boardId);
-        rollService.rollAndScore(boardId);
+        gameBoardService.play(boardId);
         return ApiResponse.successWithNoMessage(GameBoardResponse.build(gameBoard));
     }
 

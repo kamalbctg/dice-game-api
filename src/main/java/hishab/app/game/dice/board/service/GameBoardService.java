@@ -40,4 +40,11 @@ public interface GameBoardService {
      * @return the game board
      */
     GameBoard getGameBoard(String boardId);
+
+    /**
+     * Roll and score.
+     *
+     * @param boardId the board id
+     */
+    void play(String boardId);
 }
